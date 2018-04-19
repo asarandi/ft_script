@@ -6,7 +6,7 @@
 /*   By: asarandi <asarandi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 17:05:27 by asarandi          #+#    #+#             */
-/*   Updated: 2018/04/19 02:59:10 by asarandi         ###   ########.fr       */
+/*   Updated: 2018/04/19 07:54:28 by asarandi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void		replay_end(t_script *sc, unsigned char *data, int *i)
 	time_t	tclock;
 
 	st = (t_stamp *)&data[(*i)];
-	replay_save_time(sc, st);
 	size = sizeof(t_stamp);
 	size += st->len;
 	tclock = st->sec;
@@ -83,7 +82,6 @@ void		replay_input(t_script *sc, unsigned char *data, int *i)
 	int		size;
 
 	st = (t_stamp *)&data[(*i)];
-	replay_save_time(sc, st);
 	size = sizeof(t_stamp);
 	size += st->len;
 	(*i) += size;
@@ -98,20 +96,18 @@ void		replay_output(t_script *sc, unsigned char *data, int *i)
 
 	st = (t_stamp *)&data[(*i)];
 	size = sizeof(t_stamp);
-	write(1, &data[(*i) + size], st->len);
-	size += st->len;
-	(*i) += size;
 	nap.tv_sec = st->sec - sc->ts.tv_sec;
 	nap.tv_nsec = (st->usec * 1000) - sc->ts.tv_nsec;
-	ft_fprintf(1, "{green}sec %d, nsec %d{eoc}\n", nap.tv_sec, nap.tv_nsec);
+	replay_save_time(sc, st);
 	if (nap.tv_nsec < 0)
 	{
 		nap.tv_sec -= 1;
 		nap.tv_nsec += 1000000000;
 	}
-//	nap.tv_nsec *= 1000;
-	replay_save_time(sc, st);
 	nanosleep(&nap, NULL);
+	write(1, &data[(*i) + size], st->len);
+	size += st->len;
+	(*i) += size;
 	return ;
 }
 
@@ -121,9 +117,6 @@ void		replay_invalid(t_script *sc)
 	ft_fprintf(1, "invalid direction\n");
 	return ;
 }
-
-
-
 
 void	replay(t_script *sc, unsigned char *data, int filesize)
 {
@@ -146,10 +139,6 @@ void	replay(t_script *sc, unsigned char *data, int filesize)
 			return (replay_invalid(sc));
 
 	}
-
-
-
-
 }
 
 void	termios_makeraw(struct termios *t)
