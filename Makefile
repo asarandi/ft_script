@@ -1,5 +1,5 @@
 NAME		=	ft_script
-SRCFILES	=	main.c file_op.c
+SRCFILES	=	main.c file_op.c replay.c pty.c
 OBJFILES	=	$(SRCFILES:%.c=%.o)
 SRC			=	$(addprefix src/,$(SRCFILES))
 OBJ			=	$(addprefix obj/,$(OBJFILES))
