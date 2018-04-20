@@ -6,7 +6,7 @@
 /*   By: asarandi <asarandi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 17:07:05 by asarandi          #+#    #+#             */
-/*   Updated: 2018/04/19 16:26:57 by asarandi         ###   ########.fr       */
+/*   Updated: 2018/04/19 21:17:12 by asarandi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <sys/mman.h>
 # include <sys/stat.h>
 # include <sys/ioctl.h>
+# include <sys/time.h>
 # include <termios.h>
 # include <fcntl.h>
 # include <time.h>
@@ -36,6 +37,8 @@ typedef struct	s_script
 {
 	int				opt_q;
 	int				exit_code;
+	char			*filename;
+	int				fd;
 	int				master;
 	int				slave;
 	struct termios	term_cooked;
