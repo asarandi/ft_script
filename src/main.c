@@ -6,14 +6,13 @@
 /*   By: asarandi <asarandi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 17:05:27 by asarandi          #+#    #+#             */
-/*   Updated: 2018/04/19 21:28:03 by asarandi         ###   ########.fr       */
+/*   Updated: 2018/04/20 04:24:15 by asarandi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_script.h"
 
 
-//int	main(int argc, char **argv, char **envp)
 //void	replay(t_script *sc, unsigned char *data, int filesize);
 
 void	termios_makeraw(struct termios *t)
@@ -73,13 +72,6 @@ int	record_pre(t_script *sc)
 	return (0);
 }
 
-int	record_post(t_script *sc)
-{
-	close(sc->fd);
-	(void)ioctl(STDIN_FILENO, TIOCSETAF, &sc->term_cooked);
-	return (0);
-}
-
 
 int	record_input(t_script *sc, int *readstdin)
 {
@@ -120,18 +112,49 @@ int	record_output(t_script *sc)
 	return (0);
 }
 
+int	record_done(t_script *sc, int exit_code)
+{
+	struct timeval	tv;
+
+	(void)ioctl(STDIN_FILENO, TIOCSETAF, &sc->term_cooked);
+	(void)gettimeofday(&tv, NULL);
+	(void)ft_fprintf(1, "\nScript done on %s", exit_code, ctime(&tv.tv_sec));
+	(void)record_write(sc, "", 0, 'e');
+	(void)close(sc->fd);
+	(void)close(sc->master);
+	(void)munmap(sc, sizeof(t_script));
+	_exit(exit_code);
+}
+
+int record_wait(t_script *sc)
+{
+	int	exit_code;
+	int	status;
+
+	exit_code = 1;
+	if (waitpid(sc->child, &status, 0) == sc->child)
+	{
+		if (WIFEXITED(status))
+			exit_code = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			exit_code = WTERMSIG(status);
+		else
+			exit_code = 1;
+	}
+	return (record_done(sc, exit_code));
+}
 
 int	record(t_script *sc)
 {
-	int				n;
 	fd_set			rfd;
 	int				readstdin;
 	struct timeval	tv;
+	int				i;
+	int				n;
 
-	if ((n = record_pre(sc)) != 0)
-		return (n);
 	(void)record_write(sc, "", 0, 's');
 	readstdin = 1;
+	i = 30;
 	while (1)
 	{
 		FD_ZERO(&rfd);
@@ -153,41 +176,73 @@ int	record(t_script *sc)
 				break ;
 		}
 	}
-	(void)record_write(sc, "", 0, 'e');
-	(void)record_post(sc);
-	return (0);
+	record_wait(sc);
+	return (record_done(sc, 42));
 }
 
-int	main()
+int record_shell(t_script *sc)
+{
+	(void)close(sc->master);
+	(void)close(sc->fd);
+	(void)setsid();
+	if (ioctl(sc->slave, TIOCSCTTY, (char *)NULL) == -1)
+		return (-1);
+	(void)dup2(sc->slave, 0);
+	(void)dup2(sc->slave, 1);
+	(void)dup2(sc->slave, 2);
+	if (sc->slave > 2)
+		(void)close(sc->slave);
+	execve("/bin/sh", NULL, sc->envp);
+	ft_fprintf(1, "execve() failed.\n");
+	(void)kill(0, SIGTERM);
+	return (record_done(sc, EXIT_FAILURE));
+}
+
+int	main(int argc, char **argv, char **envp)
 {
 	unsigned char	*data;
 	int				filesize;
 	char			*filename = "typescript";
 	int				r;
 	t_script		*sc;
+	int				n;
 
 
 	sc = mmap(NULL, sizeof(t_script), PROT_NONE | PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, 0, 0);
 	if (sc == MAP_FAILED)
 		return exit_failure_msg("mmap() failed.");
 
-	sc->filename = "test.output";
-	if ((r = record(sc)) != 0)
-		return (r);
+	sc->argc = argc;
+	sc->argv = argv;
+	sc->envp = envp;
+	sc->filename = filename;
 
-
-
-
-	filesize = file_get_size(filename);
-	data = file_mmap(filename);
-	if (data != NULL)
-	{
-		replay(sc, data, filesize);
-		r = munmap(data, filesize);
+	if ((argc > 1) && (ft_strcmp(argv[1], "-r") == 0))
+	{	
+		if ((n = record_pre(sc)) != 0)
+			return (n);
+		if ((sc->child = fork()) < 0)
+		{
+			ft_fprintf(1, "fork() failed.\n");
+			return (record_done(sc, 1));
+		}
+		if (sc->child == 0)
+			return (record_shell(sc));
+		close(sc->slave);
+		return (record(sc));
 	}
-
-	r = sc->exit_code;
-	munmap(sc, sizeof(t_script));
-
-	return (r);
+	if ((argc > 1) && (ft_strcmp(argv[1], "-p") == 0))
+	{
+		filesize = file_get_size(filename);
+		data = file_mmap(filename);
+		if (data != NULL)
+		{
+			replay(sc, data, filesize);
+			r = munmap(data, filesize);
+		}
+		r = sc->exit_code;
+		munmap(sc, sizeof(t_script));
+		return (r);
+	}
+	return (0);
 }

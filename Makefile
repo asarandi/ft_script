@@ -4,7 +4,7 @@ OBJFILES	=	$(SRCFILES:%.c=%.o)
 SRC			=	$(addprefix src/,$(SRCFILES))
 OBJ			=	$(addprefix obj/,$(OBJFILES))
 CC			=	gcc
-CFLAGS		+=	-g -Wextra -Wall #-Werror
+CFLAGS		+= -g -Wextra -Wall #-Werror
 INC			=	-I libft/inc -I inc/
 LIB			=	-L libft/ -lft
 
