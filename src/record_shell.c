@@ -6,13 +6,13 @@
 /*   By: asarandi <asarandi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/22 17:44:21 by asarandi          #+#    #+#             */
-/*   Updated: 2018/04/22 17:44:52 by asarandi         ###   ########.fr       */
+/*   Updated: 2018/04/23 02:02:27 by asarandi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_script.h"
 
-int record_shell(t_script *sc)
+int	record_shell(t_script *sc)
 {
 	(void)close(sc->master);
 	(void)close(sc->fd);

@@ -6,7 +6,7 @@
 /*   By: asarandi <asarandi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 11:40:50 by asarandi          #+#    #+#             */
-/*   Updated: 2018/04/22 17:51:24 by asarandi         ###   ########.fr       */
+/*   Updated: 2018/04/23 02:11:51 by asarandi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		exit_failure_unmap_msg(t_script *sc, char *msg);
 int		main(int argc, char **argv, char **envp);
 int		record(t_script *sc);
 int		record_done(t_script *sc, int exit_code);
-int		record_input(t_script *sc, int *readstdin);
+int		record_input(t_script *sc);
 int		record_output(t_script *sc);
 int		record_pre(t_script *sc);
 int		record_write(t_script *sc, char *buf, int size, int direction);

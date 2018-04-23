@@ -6,7 +6,7 @@
 /*   By: asarandi <asarandi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/22 17:35:24 by asarandi          #+#    #+#             */
-/*   Updated: 2018/04/22 17:35:43 by asarandi         ###   ########.fr       */
+/*   Updated: 2018/04/23 02:01:46 by asarandi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	termios_makeraw(struct termios *t)
 {
 	t->c_iflag &= ~(IMAXBEL | IXOFF | INPCK | BRKINT | PARMRK |
-			ISTRIP |INLCR | IGNCR | ICRNL | IXON | IGNPAR);
+			ISTRIP | INLCR | IGNCR | ICRNL | IXON | IGNPAR);
 	t->c_iflag |= IGNBRK;
 	t->c_oflag &= ~OPOST;
 	t->c_lflag &= ~(ECHO | ECHOE | ECHOK | ECHONL | ICANON |

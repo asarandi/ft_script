@@ -6,13 +6,13 @@
 /*   By: asarandi <asarandi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/22 17:46:37 by asarandi          #+#    #+#             */
-/*   Updated: 2018/04/22 17:46:53 by asarandi         ###   ########.fr       */
+/*   Updated: 2018/04/23 02:11:28 by asarandi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_script.h"
 
-int	record_input(t_script *sc, int *readstdin)
+int	record_input(t_script *sc)
 {
 	int				cc;
 	char			ibuf[BUFSIZ];
@@ -26,7 +26,6 @@ int	record_input(t_script *sc, int *readstdin)
 		if ((ioctl(sc->master, TIOCGETA, &stt) == 0) &&
 				((stt.c_lflag & ICANON) != 0))
 			(void)write(sc->master, &stt.c_cc[VEOF], 1);
-		*readstdin = 0;
 	}
 	if (cc > 0)
 	{

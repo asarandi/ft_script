@@ -6,7 +6,7 @@
 /*   By: asarandi <asarandi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 17:07:05 by asarandi          #+#    #+#             */
-/*   Updated: 2018/04/20 01:00:38 by asarandi         ###   ########.fr       */
+/*   Updated: 2018/04/23 02:42:07 by asarandi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include "libftprintf.h"
 # include "functions.h"
 # define BUFSIZ 0x10000
+# define DEFAULTFILENAME "typescript"
 
 typedef struct		s_stamp
 {
