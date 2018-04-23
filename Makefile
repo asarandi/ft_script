@@ -1,5 +1,20 @@
 NAME		=	ft_script
-SRCFILES	=	main.c file_op.c replay.c pty.c
+SRCFILES	=	exit.c \
+				file_op.c \
+				main.c \
+				pty.c \
+				record.c \
+				record_done.c \
+				record_input.c \
+				record_output.c \
+				record_pre.c \
+				record_shell.c \
+				record_wait.c \
+				record_write.c \
+				replay.c \
+				replay_start_end.c \
+				term.c
+
 OBJFILES	=	$(SRCFILES:%.c=%.o)
 SRC			=	$(addprefix src/,$(SRCFILES))
 OBJ			=	$(addprefix obj/,$(OBJFILES))

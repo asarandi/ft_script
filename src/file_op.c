@@ -6,7 +6,7 @@
 /*   By: asarandi <asarandi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/06 05:24:10 by asarandi          #+#    #+#             */
-/*   Updated: 2018/04/17 11:38:12 by asarandi         ###   ########.fr       */
+/*   Updated: 2018/04/22 17:32:19 by asarandi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ void	*file_mmap(char *filename)
 	data = NULL;
 	if ((fstat(fd, &st)) == 0)
 	{
-		data = mmap(NULL, st.st_size, PROT_NONE | PROT_READ, MAP_PRIVATE, fd, 0);
+		data = mmap(NULL, st.st_size, PROT_NONE |
+				PROT_READ, MAP_PRIVATE, fd, 0);
 		if (data == MAP_FAILED)
 			data = NULL;
 	}
