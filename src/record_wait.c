@@ -6,13 +6,13 @@
 /*   By: asarandi <asarandi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/22 17:45:37 by asarandi          #+#    #+#             */
-/*   Updated: 2018/04/22 17:45:55 by asarandi         ###   ########.fr       */
+/*   Updated: 2018/04/22 21:38:55 by asarandi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_script.h"
 
-int record_wait(t_script *sc)
+int	record_wait(t_script *sc)
 {
 	int	exit_code;
 	int	status;

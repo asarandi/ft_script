@@ -6,7 +6,7 @@
 /*   By: asarandi <asarandi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/22 17:43:47 by asarandi          #+#    #+#             */
-/*   Updated: 2018/04/22 17:44:10 by asarandi         ###   ########.fr       */
+/*   Updated: 2018/04/22 21:45:07 by asarandi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	record(t_script *sc)
 		FD_SET(sc->master, &rfd);
 		if (readstdin)
 			FD_SET(STDIN_FILENO, &rfd);
-		tv.tv_sec = 1;						/* XXX */
+		tv.tv_sec = 1;
 		tv.tv_usec = 0;
 		if ((n = select(sc->master + 1, &rfd, 0, 0, &tv)) < 0)
 			return (exit_failure_unmap_msg(sc, "select() failed."));
