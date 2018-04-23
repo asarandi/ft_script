@@ -6,7 +6,7 @@
 /*   By: asarandi <asarandi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 17:07:05 by asarandi          #+#    #+#             */
-/*   Updated: 2018/04/23 02:42:07 by asarandi         ###   ########.fr       */
+/*   Updated: 2018/04/23 04:34:03 by asarandi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <fcntl.h>
 # include <time.h>
 # include <signal.h>
-//# include <stdio.h>	// remove
 # include "libft.h"
 # include "libftprintf.h"
 # include "functions.h"
@@ -36,7 +35,7 @@ typedef struct		s_stamp
 	uint32_t		direction;
 }					t_stamp;
 
-typedef struct	s_script
+typedef struct		s_script
 {
 	int				opt_q;
 	int				exit_code;
@@ -52,7 +51,5 @@ typedef struct	s_script
 	char			**argv;
 	char			**envp;
 }					t_script;
-
-void	replay(t_script *sc, unsigned char *data, int filesize);
 
 #endif
