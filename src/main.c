@@ -6,7 +6,7 @@
 /*   By: asarandi <asarandi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 17:05:27 by asarandi          #+#    #+#             */
-/*   Updated: 2018/04/23 04:35:22 by asarandi         ###   ########.fr       */
+/*   Updated: 2018/05/04 12:03:38 by asarandi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,15 @@ int	main_replay(t_script *sc)
 	return (sc->exit_code);
 }
 
+int	show_usage(char *prog)
+{
+	ft_fprintf(1, "%s:\n", prog);
+	ft_fprintf(1, "[usage]:\n");
+	ft_fprintf(1, "\t-r\trecord to typescript file\n");
+	ft_fprintf(1, "\t-p\tplayblack from typescript file\n");
+	return (0);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	int				exit_code;
@@ -66,5 +75,7 @@ int	main(int argc, char **argv, char **envp)
 			exit_code = main_replay(sc);
 		munmap(sc, sizeof(t_script));
 	}
+	else
+		(void)show_usage(argv[0]);
 	return (exit_code);
 }
