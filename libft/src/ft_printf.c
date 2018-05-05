@@ -6,7 +6,7 @@
 /*   By: asarandi <asarandi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/30 09:21:32 by asarandi          #+#    #+#             */
-/*   Updated: 2018/04/16 17:27:42 by asarandi         ###   ########.fr       */
+/*   Updated: 2018/05/04 16:57:45 by asarandi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,18 @@ int		ft_printf(const char *restrict format, ...)
 	int		count;
 
 	va_start(ap, format);
-	count = ft_fprintf(STDOUT_FILENO, format, ap);
+	count = 0;
+	while (*format)
+	{
+		if (((*format) == '{') && (*format + 1))
+			count += color_routine(STDOUT_FILENO, &format);
+		if ((*format == '%') && (*format + 1))
+			count += main_routine(STDOUT_FILENO, &format, &ap, count);
+		else if (*format)
+		{
+			count += write(STDOUT_FILENO, format++, 1);
+		}
+	}
 	va_end(ap);
 	return (count);
 }
