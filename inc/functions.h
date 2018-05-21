@@ -6,7 +6,7 @@
 /*   By: asarandi <asarandi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 11:40:50 by asarandi          #+#    #+#             */
-/*   Updated: 2018/04/23 02:11:51 by asarandi         ###   ########.fr       */
+/*   Updated: 2018/05/21 04:01:24 by asarandi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,26 @@ typedef struct s_script	t_script;
 typedef struct s_stamp	t_stamp;
 
 char	*file_get_contents(char *filename);
+char	*find_shell(t_script *sc);
 int		file_get_size(char *filename);
+int		record_shell(t_script *sc);
 int		create_pty(t_script *sc);
 int		create_pty_failed_close_fd(int fd);
 int		create_pty_set_slave_settings(t_script *sc);
 int		exit_failure_msg(char *msg);
 int		exit_failure_unmap_msg(t_script *sc, char *msg);
 int		main(int argc, char **argv, char **envp);
+int		main_record(t_script *sc);
+int		main_replay(t_script *sc);
+int		parse_args(t_script *sc);
 int		record(t_script *sc);
 int		record_done(t_script *sc, int exit_code);
 int		record_input(t_script *sc);
 int		record_output(t_script *sc);
 int		record_pre(t_script *sc);
-int		record_write(t_script *sc, char *buf, int size, int direction);
-int		record_shell(t_script *sc);
 int		record_wait(t_script *sc);
+int		record_write(t_script *sc, char *buf, int size, int direction);
+int		show_usage(t_script *sc);
 void	*file_mmap(char *filename);
 void	replay(t_script *sc, unsigned char *data, int filesize);
 void	replay_end(t_script *sc, unsigned char *data, int *i);

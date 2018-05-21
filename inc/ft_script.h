@@ -6,7 +6,7 @@
 /*   By: asarandi <asarandi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 17:07:05 by asarandi          #+#    #+#             */
-/*   Updated: 2018/04/23 04:34:03 by asarandi         ###   ########.fr       */
+/*   Updated: 2018/05/21 03:22:16 by asarandi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include "functions.h"
 # define BUFSIZ 0x10000
 # define DEFAULTFILENAME "typescript"
+# define FILE_TRUNCATE	(O_WRONLY | O_CREAT | O_TRUNC)
+# define FILE_APPEND	(O_WRONLY | O_CREAT | O_APPEND)
 
 typedef struct		s_stamp
 {
@@ -37,7 +39,9 @@ typedef struct		s_stamp
 
 typedef struct		s_script
 {
-	int				opt_q;
+	int				option_q;
+	int				option_a;
+	int				action;
 	int				exit_code;
 	char			*filename;
 	int				fd;

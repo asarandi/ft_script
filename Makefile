@@ -19,15 +19,17 @@ OBJFILES	=	$(SRCFILES:%.c=%.o)
 SRC			=	$(addprefix src/,$(SRCFILES))
 OBJ			=	$(addprefix obj/,$(OBJFILES))
 CC			=	gcc
-CFLAGS		+=	-Wextra -Wall -Werror -O2
+CFLAGS		+=	-O2 -Wextra -Wall -Werror
 INC			=	-I libft/inc -I inc/
-LIB			=	-L libft/ -lft
+LIBFT		=	libft/libft.a
 
 all:$(NAME)
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJ) | $(LIBFT)
+	$(CC) $(CFLAGS) -o $@ $^ $(LIBFT)
+
+libft/libft.a:
 	make -C libft/
-	$(CC) $(CFLAGS) -o $@ $^ $(LIB)
 
 objdir:
 	mkdir -p obj/
@@ -50,3 +52,14 @@ fclean: clean rmbin
 	make fclean -C libft/
 
 re: fclean all
+
+norminette:
+	norminette src/
+	norminette inc/
+	norminette libft/src/
+	norminette libft/inc
+
+norme: norminette
+
+norm: norminette
+
